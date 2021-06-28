@@ -12,6 +12,7 @@ public class Soldier76Move : MonoBehaviour
     float yVelocity = 0;
     float jumpPower = 3.0f;
     float jumpCount = 1.0f;
+    bool isRun = false;
 
     void Start()
     {
@@ -55,13 +56,28 @@ public class Soldier76Move : MonoBehaviour
         // 캐릭터컨트롤러로 움직이고 싶다.
         cc.Move(dir * walkSpeed * Time.deltaTime);
 
-        // shift키를 누르고 있을 때
-        if (Input.GetKey(KeyCode.LeftShift))
+        // shift키를 눌렸을 때
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            // 워크스피드를 런스피드로 한다.
+            // 나는 isRun(true) 달리기 상태로 한다. 쉬프트를 눌렀을 때 달리고 있다면 걷게 바꾼다. 만약 걷고 있다면 달리게 바꾼다.
+            //if (isRun) 
+            //{ 
+            //    isRun = false;
+            //} 
+            //else
+            //{
+            //    // 다시한번 shift를 눌렀을 때 isRun(false) 걷기 상태로 만든다.
+            //    isRun = true;
+            //}
+            isRun = !isRun;
+        }
+
+        // isRun(true)은 달리기 상태
+        if (isRun == true)
+        {
             walkSpeed = runSpeed;
         }
-        else
+        else // 걷기 상태
         {
             walkSpeed = 7.0f;
         }

@@ -308,8 +308,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 487245186}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08345465, y: 1.337574, z: 5.8132057}
-  m_LocalScale: {x: 6.072646, y: 2.6751497, z: 2.0567}
+  m_LocalPosition: {x: 0.08345465, y: 2.3868, z: 5.8132057}
+  m_LocalScale: {x: 6.072646, y: 4.7736483, z: 2.0567}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -418,6 +418,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -490,6 +491,21 @@ Transform:
   m_Father: {fileID: 1142559573}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e998ce4ab740e45418beeda951146271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotSpeed: 300
+  rotateX: 1
+  rotateY: 1
 --- !u!1 &1142559567
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +519,7 @@ GameObject:
   - component: {fileID: 1142559571}
   - component: {fileID: 1142559570}
   - component: {fileID: 1142559569}
+  - component: {fileID: 1142559574}
   - component: {fileID: 1142559568}
   m_Layer: 0
   m_Name: Soldier76_Player
@@ -542,7 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 7
-  runSpeed: 20
+  runSpeed: 12
   gravity: -15
 --- !u!136 &1142559570
 CapsuleCollider:
@@ -623,6 +640,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1142559574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142559567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e998ce4ab740e45418beeda951146271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotSpeed: 300
+  rotateX: 0
+  rotateY: 1
 --- !u!1 &1844262883
 GameObject:
   m_ObjectHideFlags: 0
