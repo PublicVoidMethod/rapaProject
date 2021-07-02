@@ -130,6 +130,6 @@ public class Soldier76Move : MonoBehaviour
             targetTransform = standTransform;
         }
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetTransform.position, crouchSpeed * Time.deltaTime);
-        Debug.Log(Camera.main.transform.position);
+        //Debug.Log(Camera.main.transform.position);
     }
 }
