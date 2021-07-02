@@ -12,7 +12,12 @@ GameObject:
   - component: {fileID: 1177952829279592133}
   - component: {fileID: 4182624102023067928}
   - component: {fileID: 104532996782592169}
+<<<<<<< HEAD
   m_Layer: 0
+=======
+  - component: {fileID: 8146011365161548433}
+  m_Layer: 8
+>>>>>>> c00607f6efb76bf9c4c042b4e8e1f37e00d46121
   m_Name: Spiral Rocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
