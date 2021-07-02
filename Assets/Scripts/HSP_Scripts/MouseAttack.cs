@@ -39,6 +39,9 @@ public class MouseAttack : MonoBehaviour
         // 마우스 오른쪽 클릭을 하고, 경과시간이 쿨타임의 시간보다 커진다면
         if (Input.GetMouseButtonDown(1) && elapsedTime >= coolTime)
         {
+            // 레이를 생성한다.
+            
+            
             // 총알 프리팹을 생성한다.
             GameObject go = Instantiate(spiralRocket);
 
