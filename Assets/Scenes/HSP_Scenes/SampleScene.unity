@@ -723,7 +723,6 @@ GameObject:
   - component: {fileID: 1142559569}
   - component: {fileID: 1142559574}
   - component: {fileID: 1142559568}
-  - component: {fileID: 1142559575}
   m_Layer: 0
   m_Name: Soldier76_Player
   m_TagString: Untagged
@@ -862,20 +861,6 @@ MonoBehaviour:
   rotSpeed: 300
   rotateX: 0
   rotateY: 1
---- !u!114 &1142559575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1142559567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 804b1c3ddc2a30440819fbfe5e86b214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  test: {fileID: 0}
-  cols: []
 --- !u!1 &1496512070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,8 +1071,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spiralRocket: {fileID: 9028986998248242803, guid: 910b56e8617f16d409a4c3d8f9763894, type: 3}
-  firePosition: {fileID: 814987158}
+  firePosition: {fileID: 814987157}
   coolTime: 5
+  locketSpeed: 10
 --- !u!1 &2078387217
 GameObject:
   m_ObjectHideFlags: 0

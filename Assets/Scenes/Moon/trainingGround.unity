@@ -1325,14 +1325,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spiralRocket: {fileID: 9028986998248242803, guid: 910b56e8617f16d409a4c3d8f9763894, type: 3}
-<<<<<<< HEAD
   firePosition: {fileID: 814987157}
   coolTime: 5
-  locketSpeed: 0.7
-=======
-  firePosition: {fileID: 814987158}
-  coolTime: 1
->>>>>>> c00607f6efb76bf9c4c042b4e8e1f37e00d46121
+  locketSpeed: 10
 --- !u!1 &1859232004
 GameObject:
   m_ObjectHideFlags: 0

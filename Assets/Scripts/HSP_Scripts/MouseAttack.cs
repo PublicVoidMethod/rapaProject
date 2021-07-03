@@ -61,7 +61,7 @@ public class MouseAttack : MonoBehaviour
 
                 // 그 오브젝트의 정보를 받은 포지션으로 방향을 만들고.
                 crossDir = rHitInfo.point - firePosition.transform.position;
-
+                crossDir.Normalize();
             }
             else
             {
