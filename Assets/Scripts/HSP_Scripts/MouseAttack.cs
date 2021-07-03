@@ -79,10 +79,12 @@ public class MouseAttack : MonoBehaviour
 
             // 경과시간을 초기화한다.
             elapsedTime = 0;
-
         }
+
         // 그 방향으로 움직인다.
-        if(go != null)
-        go.transform.position += crossDir * locketSpeed * Time.deltaTime;
+        if (go != null)
+        {
+            go.transform.position += crossDir * locketSpeed * Time.deltaTime;
+        }
     }
 }
