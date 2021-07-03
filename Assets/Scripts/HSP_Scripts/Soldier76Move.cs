@@ -19,9 +19,15 @@ public class Soldier76Move : MonoBehaviour
     float jumpPower = 3.0f;
     float jumpCount = 1.0f;
     bool isRun = false;
+    float hP = 200.0f;
     //bool isCrouch = false;
     //float standPosY = 0f;
     //float crouchPosY = 0f;
+
+    public float GetHP()
+    {
+        return hP;
+    }
 
     void Start()
     {
