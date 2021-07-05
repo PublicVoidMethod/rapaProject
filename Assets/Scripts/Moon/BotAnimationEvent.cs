@@ -9,8 +9,13 @@ public class BotAnimationEvent : MonoBehaviour
     //애니메이션 공격 동작에 호출할 이벤트 함수를 제작
     public void OnEventAttack()
     {
-        print("ATTACK");
+       // print("ATTACK");
         //이벤트가 발생하면 Enemy 컴포넌트에게 알려주고싶다 
         bot.OnEventAttack();
+    }
+
+    public void OnEventDamaged()
+    {
+     //   bot.OnEventDamaged();
     }
 }

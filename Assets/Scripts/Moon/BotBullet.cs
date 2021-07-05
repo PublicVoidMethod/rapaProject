@@ -11,6 +11,7 @@ public class BotBullet : MonoBehaviour
     void Start()
     {
         dir = GameObject.Find("Bot").GetComponent<BotFSM>().dir;
+       // dir = GameObject.Find("Bot(Clone)").GetComponent<BotFSM>().dir;
     }
 
     // Update is called once per frame

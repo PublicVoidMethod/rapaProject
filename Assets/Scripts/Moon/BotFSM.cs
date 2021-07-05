@@ -20,6 +20,8 @@ public class BotFSM : MonoBehaviour
     public GameObject BotFirePosition;
     public Vector3 dir;
 
+
+
     public enum State
     {
         Respawn,
@@ -27,10 +29,10 @@ public class BotFSM : MonoBehaviour
         Damaged,
         Attack,
         Die,
+        Dead,
     }
 
     public State state;
-    BotHP bhp;
 
 
     // Start is called before the first frame update
@@ -39,7 +41,7 @@ public class BotFSM : MonoBehaviour
         state = State.Respawn;
         target = GameObject.Find("Soldier76_Player");
 
-        transform.position = BP.transform.position;
+        //transform.position = BP.transform.position;
 
     }
 
@@ -61,20 +63,33 @@ public class BotFSM : MonoBehaviour
 
         else if (state == State.Die)
         {
+            anim.SetTrigger("Die");
             UpdateDie();
+        }
+
+        else if (state == State.Dead)
+        {
+
         }
     }
 
-
-
-
-
+    private void UpdateDie()
+    {
+        state = State.Dead;
+        Destroy(gameObject, 4f);
+        BotManager.instance.COUNT--;
+    }
+    float updateTime;
     private void UpdateRespawn()
     {
+        updateTime += Time.deltaTime;
         //태어나면 리스폰 애니메이션 재생
-        //애니메이션이 끝나면 Move상태로 전이
-        state = State.Move;
-        anim.SetTrigger("Move");
+        if (updateTime > 2)
+        {
+            //애니메이션이 끝나면 Move상태로 전이
+            state = State.Move;
+            anim.SetTrigger("Move");
+        }
     }
 
     public GameObject BP;
@@ -101,19 +116,24 @@ public class BotFSM : MonoBehaviour
             anim.SetTrigger("Attack");
         }
     }
+
+
+
     private void UpdateDamaged()
     {
-        //데미지를 받으면
-
-        //데미지 애니메이션 재생
-
-        //데미지 애니메이션이 끝나면 Move상태로 전이
-        state = State.Move;
+        //데미지를 받으면 데미지 애니메이션 재생
+        anim.SetTrigger("Damage");
         anim.SetTrigger("Move");
-        //hp가 다 닳으면 die 상태로 전이
-        // state = State.Die;
+        state = State.Move;
     }
 
+    //데미지 애니메이션이 끝나면 Move상태로 전이   
+/*    internal void OnEventDamaged()
+    {
+        anim.SetTrigger("Move");
+        state = State.Move;
+
+    }*/
 
     internal void OnEventAttack()
     {
@@ -134,18 +154,15 @@ public class BotFSM : MonoBehaviour
             //Move상태로 전이
             state = State.Move;
             anim.SetTrigger("Move");
-        } else
+        }
+        else
         {
             state = State.Attack;
             anim.SetTrigger("Attack");
         }
     }
 
-    private void UpdateDie()
-    {
-
-        anim.SetTrigger("Die");
-        Destroy(gameObject, 4f);
-    }
 
 }
+
+
