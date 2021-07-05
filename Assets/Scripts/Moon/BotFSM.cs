@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BotFSM : MonoBehaviour
@@ -8,8 +9,18 @@ public class BotFSM : MonoBehaviour
 
     GameObject target;
     public float attackDistance = 5;
-    float currentTime;
-    float attackTime = 1;
+
+
+
+    //Animator > Animator Controller > Animation Clips
+    public Animator anim;
+
+    //공격
+    public GameObject BotbulletFactory;
+    public GameObject BotFirePosition;
+    public Vector3 dir;
+
+
 
     public enum State
     {
@@ -18,10 +29,10 @@ public class BotFSM : MonoBehaviour
         Damaged,
         Attack,
         Die,
+        Dead,
     }
 
     public State state;
-    BotHP bhp;
 
 
     // Start is called before the first frame update
@@ -30,6 +41,7 @@ public class BotFSM : MonoBehaviour
         state = State.Respawn;
         target = GameObject.Find("Soldier76_Player");
 
+        //transform.position = BP.transform.position;
 
     }
 
@@ -49,29 +61,50 @@ public class BotFSM : MonoBehaviour
             UpdateDamaged();
         }
 
-        else if (state == State.Attack)
-        {
-            UpdateAttack();
-        }
         else if (state == State.Die)
         {
+            anim.SetTrigger("Die");
             UpdateDie();
+        }
+
+        else if (state == State.Dead)
+        {
+
         }
     }
 
-
-
-
-
+    private void UpdateDie()
+    {
+        state = State.Dead;
+        Destroy(gameObject, 4f);
+        BotManager.instance.COUNT--;
+    }
+    float updateTime;
     private void UpdateRespawn()
     {
+        updateTime += Time.deltaTime;
         //태어나면 리스폰 애니메이션 재생
+        if (updateTime > 2)
+        {
+            //애니메이션이 끝나면 Move상태로 전이
+            state = State.Move;
+            anim.SetTrigger("Move");
+        }
     }
+
+    public GameObject BP;
+    public int BotSpeed = 1;
+    public int Botdist = 20;
     private void UpdateMove()
     {
-        //리스폰 애니메이션 후 정해진 방향으로 이동하기
+        //정해진 방향으로 이동하기
+        transform.position += transform.forward * Time.deltaTime * BotSpeed;
+        if ((Vector3.Distance(BP.transform.position, transform.position)) > Botdist)
+        {
+            BP.transform.position = transform.position;
+            transform.Rotate(0, -90, 0);
+        }
 
- 
         //나와 target의 거리를 구해서
         float distance = Vector3.Distance(transform.position, target.transform.position);
 
@@ -80,43 +113,56 @@ public class BotFSM : MonoBehaviour
         {
             //Attack 상태로 전이
             state = State.Attack;
+            anim.SetTrigger("Attack");
         }
     }
+
+
+
     private void UpdateDamaged()
     {
-        //데미지를 받으면
-        //데미지 애니메이션 재생
-        //
-
-        //hp가 다 닳으면 die 상태로 전이
-        state = State.Die;
+        //데미지를 받으면 데미지 애니메이션 재생
+        anim.SetTrigger("Damage");
+        anim.SetTrigger("Move");
+        state = State.Move;
     }
-    private void UpdateAttack()
+
+    //데미지 애니메이션이 끝나면 Move상태로 전이   
+/*    internal void OnEventDamaged()
     {
-        //시간이 흐르다가
-        currentTime += Time.deltaTime;
-        //현재시간이 공격시간이 되면
-        if (currentTime > attackTime)
+        anim.SetTrigger("Move");
+        state = State.Move;
+
+    }*/
+
+    internal void OnEventAttack()
+    {
+        //총알 복제
+        GameObject BotBullet = Instantiate(BotbulletFactory);
+        //Bullet을 총구에
+        BotBullet.transform.position = BotFirePosition.transform.position;
+        //bullet 방향
+        dir = target.transform.position - transform.position;
+        dir.Normalize();
+
+        //나와  target의 거리를 구해서
+        float distance = Vector3.Distance(transform.position, target.transform.position);
+
+        //만약 그 거리가 공격거리보다 크면
+        if (distance > attackDistance)
         {
-            //현재 시간 초기화
-            currentTime = 0;
-            //플레이어를 공격
-            //target.AddDamage();
-            //나와  target의 거리를 구해서
-            float distance = Vector3.Distance(transform.position, target.transform.position);
-            //만약 그 거리가 공격거리보다 크면
-            if (distance > attackDistance)
-            {
-                //Move상태로 전이
-                state = State.Move;
-            }
-
+            //Move상태로 전이
+            state = State.Move;
+            anim.SetTrigger("Move");
         }
+        else
+        {
+            state = State.Attack;
+            anim.SetTrigger("Attack");
+        }
+    }
 
-    }
-    private void UpdateDie()
-    {
-       // Destroy(gameObject.Bot);
-    }
 
 }
+
+

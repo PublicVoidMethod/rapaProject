@@ -1,0 +1,53 @@
+v 한 것
+x 해야하는 것
+
+훈련봇 FSM (Respawn, Move, Die, Damaged, 공격)
+- Respawn
+v 태어나면 리스폰 애니메이션 재생
+v 애니메이션 끝나면 Move상태로 전이
+
+- Move
+훈련봇 움직임 (정해진 루트)
+v if문으로 90도씩 회전하면서 사각형 루트로 돌기
+x prefab화 했을 때 BotPosition의 문제
+
+- Damaged
+v 마우스 왼클릭하면 damage되게 처리 (임시) hp -1씩
+v Damage 애니메이션
+ 	
+- 공격
+v bullet 발사, 공격반경 안에 들어오면 플레이어의 방향으로 총알이 발사됨
+v bullet은 손에서 발사
+x bot의 방향은 바뀌지 않음
+x botBullet이 player에게 충격을 주고 hp까기
+
+- Die
+v 죽은 애니메이션
+v 4초 이후 destroy
+
+훈련봇 Damaged 몸통, 머리 다른 데미지
+v BotHead
+v BotBody
+
+UI : 머리위에 떠다니는 HP바
+v 만들기
+x rotate
+x GetDamaged(int damage) 함수 실행시 damge씩 감소
+body에 닿으면 1, head에 닿으면 2씩 감소하게 하면 될듯
+
+훈련봇 prefab화
+BotManager로 시도했으나 오류가 많이 나서 일단은 보류하고 Bot 1개로 진행
+
+
+
+
+--------------------------------------
+
+맵
+스킬  이펙트
+
+캐릭터
+https://youtu.be/C-Lz4EL63-E
+훈련장의 모습, 훈련봇 영상
+https://youtu.be/7x6mR0PpNSw 0:30
+
