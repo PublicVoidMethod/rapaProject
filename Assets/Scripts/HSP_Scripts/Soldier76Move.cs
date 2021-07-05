@@ -11,6 +11,7 @@ public class Soldier76Move : MonoBehaviour
     public float crouchSpeed = 3.0f;
     public Transform standTransform;
     public Transform crouchTransform;
+    public float maxHP = 200f;
 
     CharacterController cc;
     CapsuleCollider capsule;
@@ -19,7 +20,7 @@ public class Soldier76Move : MonoBehaviour
     float jumpPower = 3.0f;
     float jumpCount = 1.0f;
     bool isRun = false;
-    float hP = 200.0f;
+    float hP = 0;
     //bool isCrouch = false;
     //float standPosY = 0f;
     //float crouchPosY = 0f;
@@ -33,13 +34,15 @@ public class Soldier76Move : MonoBehaviour
     {
         cc = transform.GetComponent<CharacterController>();
 
+        hP = maxHP;
+
         //standPosY = Camera.main.transform.position.y;
         //crouchPosY = standPosY - 0.44f;
         //standVector = Camera.main.transform.position;
         //crouchVector = new Vector3(0, standVector.y - 0.44f, 0);
 
         // 플레이어의 캡슐 콜라이더를 가져온다
-        capsule = gameObject.GetComponent<CapsuleCollider>();
+        //capsule = gameObject.GetComponent<CapsuleCollider>();
     }
 
     void LateUpdate()
@@ -126,13 +129,15 @@ public class Soldier76Move : MonoBehaviour
     private void OnUpDown(bool isCrouch)
     {
         Transform targetTransform;
-        // 앉기의 상태가 false가 아니라면
+        // 앉기의 상태가 true라면
         if (isCrouch)
         {
+            // true라면 앉기 상태
             targetTransform = crouchTransform;
         }
         else
         {
+            // false라면 서있는 상태
             targetTransform = standTransform;
         }
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetTransform.position, crouchSpeed * Time.deltaTime);

@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MouseAttack : MonoBehaviour
 {
     public GameObject spiralRocket;
     public GameObject firePosition;
+    public Text magazineCntText;
     public float coolTime = 5.0f;
     public float locketSpeed = 10.0f;
+    public int currentBulletCnt = 0;
+    public int totalBulletCnt = 25;
     
     Vector3 dir;
     Vector3 crossDir;
@@ -18,6 +22,12 @@ public class MouseAttack : MonoBehaviour
 
     void Start()
     {
+        // 현재 총알에 총 탄창의 수로 초기화한다.
+        currentBulletCnt = totalBulletCnt;
+
+        // 시작할 때 탄창 수를 표시해줘야 한다.
+        magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
+
         go = null;
         // 경과시간에 쿨타임을 넣고
         elapsedTime = coolTime;
@@ -34,17 +44,36 @@ public class MouseAttack : MonoBehaviour
         // 마우스 왼쪽 클릭을 했을 때
         if (Input.GetMouseButtonDown(0))
         {
-            // 레이를 생성하고
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-
-            // 레이가 생성되었을 때 닿은 오브젝트의 정보를 담을 변수를 생성
-            RaycastHit hitInfo;
-
-            // 레이를 발사한다.
-            if (Physics.Raycast(ray, out hitInfo))
+            // 현재 총알의 카운트를 하나씩 감소시킨다.
+            // 텍스트의 카운트를 써준다?
+            --currentBulletCnt;
+            // 현재 총알이 0이 되거나 R키를 눌렀을 때 토탈 탄창의 수로 초기화 한다.
+            if (currentBulletCnt <= 0)
             {
-                print(hitInfo.transform.name);
+                Reload();
             }
+            else
+            {
+                magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
+
+                // 레이를 생성하고
+                Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+
+                // 레이가 생성되었을 때 닿은 오브젝트의 정보를 담을 변수를 생성
+                RaycastHit hitInfo;
+
+                // 레이를 발사한다.
+                if (Physics.Raycast(ray, out hitInfo))
+                {
+                    print(hitInfo.transform.name);
+                }
+            }
+        }
+
+        // 현재 총알이 총 탄창의 값과 다르고 R키를 누르면
+        if(currentBulletCnt != totalBulletCnt && Input.GetKeyDown(KeyCode.R))
+        {
+            Reload();
         }
 
         elapsedTime += Time.deltaTime;
@@ -86,5 +115,11 @@ public class MouseAttack : MonoBehaviour
         {
             go.transform.position += crossDir * locketSpeed * Time.deltaTime;
         }
+    }
+
+    void Reload()
+    {
+        currentBulletCnt = totalBulletCnt;
+        magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
     }
 }
