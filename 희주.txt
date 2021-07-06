@@ -1,7 +1,38 @@
 v 한 것
 x 해야하는 것
 
-훈련봇 FSM (Respawn, Move, Die, Damaged, 공격)
+
+※레퍼런스※
+
+캐릭터
+https://youtu.be/C-Lz4EL63-E
+훈련장의 모습, 훈련봇 영상
+https://youtu.be/7x6mR0PpNSw 0:30
+
+----------------------------------------------------------------------------------
+
+애니메이션 총 4가지
+-Respawn
+-Move : 정해진 루트대로 돌아감
+-Attack :  bullet 발사, 공격반경 안에 들어오면 플레이어의 방향으로 총알이 발사됨 / bullet은 손에서 발사
+-Damaged : 좌클릭 받으면 damaged
+-Die : 4초 이후 destroy
+
+훈련봇 캐릭터, 애니메이션
+- 훈련봇 Damaged 몸통, 머리 다른 데미지
+- 애니메이션
+v 캐릭터 mixamo로 가져와서 애니메이션 다운로드
+v 애니메이션 적용
+v 공격에 Event 적용 (아도겐 타이밍)
+
+UI : 머리위에 떠다니는 HP바
+
+
+
+
+※프로토타입※
+
+@훈련봇 FSM (Respawn, Move, Die, Damaged, 공격)
 - Respawn
 v 태어나면 리스폰 애니메이션 재생
 v 애니메이션 끝나면 Move상태로 전이
@@ -9,7 +40,7 @@ v 애니메이션 끝나면 Move상태로 전이
 - Move
 훈련봇 움직임 (정해진 루트)
 v if문으로 90도씩 회전하면서 사각형 루트로 돌기
-x prefab화 했을 때 BotPosition의 문제
+x prefab화 했을 때 BotPosition의 문제 (이동된 값으로 저장됨, 마지막 죽은 곳에서 다시 태어남)
 
 - Damaged
 v 마우스 왼클릭하면 damage되게 처리 (임시) hp -1씩
@@ -18,36 +49,45 @@ v Damage 애니메이션
 - 공격
 v bullet 발사, 공격반경 안에 들어오면 플레이어의 방향으로 총알이 발사됨
 v bullet은 손에서 발사
-x bot의 방향은 바뀌지 않음
-x botBullet이 player에게 충격을 주고 hp까기
+x bot의 방향은 바뀌지 않음 (rotate)
+v botBullet이 player에게 충격을 주고 hp까기 (OnCollisionEnter - botbullet <-> player끼리 닿으면, playerGetDamaged함수 부르기)
 
 - Die
 v 죽은 애니메이션
 v 4초 이후 destroy
 
-훈련봇 Damaged 몸통, 머리 다른 데미지
+
+@훈련봇 캐릭터, 애니메이션
+- 훈련봇 Damaged 몸통, 머리 다른 데미지
 v BotHead
 v BotBody
+x 우클릭공격(bullet)받을 시 mesh가 head, body 따로 놈 / mesh가 밀려도 캐릭터는 그 자리에 있음. 
 
-UI : 머리위에 떠다니는 HP바
+- 애니메이션
+v 캐릭터 mixamo로 가져와서 애니메이션 다운로드
+v 애니메이션 적용
+v 공격에 Event 적용 (아도겐 타이밍)
+
+
+@UI : 머리위에 떠다니는 HP바
 v 만들기
-x rotate
-x GetDamaged(int damage) 함수 실행시 damge씩 감소
+v main camera따라 rotate
+v BotHPBarScript - GetDamaged(int damage) 함수 실행시 damge씩 감소
 body에 닿으면 1, head에 닿으면 2씩 감소하게 하면 될듯
+x 우클릭 hp
 
-훈련봇 prefab화
+
+@ 훈련봇 prefab화
 BotManager로 시도했으나 오류가 많이 나서 일단은 보류하고 Bot 1개로 진행
 
-
-
-
 --------------------------------------
-
+※알파※
+우클릭공격(bullet)받을 시 mesh가 head, body 따로 놈 / mesh가 밀려도 캐릭터는 그 자리에 있음. 
+훈련봇 prefab화 및 BotPosition의 문제 (이동된 값으로 저장됨, 마지막 죽은 곳에서 다시 태어남)
 맵
-스킬  이펙트
+공격 관련 이펙트
 
-캐릭터
-https://youtu.be/C-Lz4EL63-E
-훈련장의 모습, 훈련봇 영상
-https://youtu.be/7x6mR0PpNSw 0:30
+//오디오 (총소리, Damage소리, BGM)
+----------------------------------------
+베타
 

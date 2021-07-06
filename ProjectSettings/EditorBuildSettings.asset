@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Moon/trainingGround.unity
+    guid: 6c8c0888129829f48972d29d6c569ca2
   m_configObjects: {}

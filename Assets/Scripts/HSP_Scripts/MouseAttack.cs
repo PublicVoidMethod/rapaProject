@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +10,7 @@ public class MouseAttack : MonoBehaviour
     public float locketSpeed = 10.0f;
     public int currentBulletCnt = 0;
     public int totalBulletCnt = 25;
-    
+
     Vector3 dir;
     Vector3 crossDir;
     GameObject go;
@@ -20,8 +18,17 @@ public class MouseAttack : MonoBehaviour
 
     float elapsedTime = 0;
 
+    GameObject Bot;
+    BotHPBarScript botHPScript;
     void Start()
     {
+
+        //BotHPBar 찾기
+        Bot = GameObject.Find("Bot");
+        botHPScript = Bot.GetComponent<BotHPBarScript>();
+
+
+
         // 현재 총알에 총 탄창의 수로 초기화한다.
         currentBulletCnt = totalBulletCnt;
 
@@ -35,7 +42,7 @@ public class MouseAttack : MonoBehaviour
         // 정면 방향을 만들고
         dir = new Vector3(0, 0, 1);
 
-        // 메인 카메라의 정면 방향으로 나아가고 싶다.
+        // 메인카메라의 정면 방향으로 나아가고 싶다.
         dir = Camera.main.transform.forward;
     }
 
@@ -66,12 +73,21 @@ public class MouseAttack : MonoBehaviour
                 if (Physics.Raycast(ray, out hitInfo))
                 {
                     print(hitInfo.transform.name);
+
+                    if (hitInfo.transform.name.Contains("BotHead"))
+                    {
+                        botHPScript.BotGetDamaged(2);
+                    }
+                    else if (hitInfo.transform.name.Contains("BotBody"))
+                    {
+                        botHPScript.BotGetDamaged(1);
+                    }
                 }
             }
         }
 
         // 현재 총알이 총 탄창의 값과 다르고 R키를 누르면
-        if(currentBulletCnt != totalBulletCnt && Input.GetKeyDown(KeyCode.R))
+        if (currentBulletCnt != totalBulletCnt && Input.GetKeyDown(KeyCode.R))
         {
             Reload();
         }
@@ -97,7 +113,7 @@ public class MouseAttack : MonoBehaviour
                 // 카메라의 정면 방향으로 이동하고 싶다.
                 transform.position += dir * locketSpeed * Time.deltaTime;
             }
-            
+
             // 총알 프리팹을 생성한다.
             go = Instantiate(spiralRocket);
 

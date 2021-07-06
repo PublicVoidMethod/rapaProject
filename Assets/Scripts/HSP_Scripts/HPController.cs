@@ -18,6 +18,13 @@ public class HPController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hpSlider.value = soldier76.GetHP() / soldier76.maxHP;
+        
     }
+
+    public void PlayerGetDamaged(int damage)
+    {
+        hpSlider.value -= damage;
+     //   hpSlider.value = soldier76.GetHP() / soldier76.maxHP;
+    }
+
 }

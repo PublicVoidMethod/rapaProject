@@ -24,7 +24,7 @@ public class BotHPBarScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire2"))
+/*        if (Input.GetButtonDown("Fire2"))
         {
             HP -= 1;
             BotHPBar.GetComponent<Image>().fillAmount = HP/MaxHP;
@@ -34,12 +34,12 @@ public class BotHPBarScript : MonoBehaviour
         {
             Bfsm.state = BotFSM.State.Die;
             HP = -1;
-        }
+        }*/
 
     }
 
 
-/*    public void GetDamaged(int damage)
+    public void BotGetDamaged(int damage)
     {
         Bfsm.state = BotFSM.State.Damaged;
         HP -= damage;
@@ -51,5 +51,5 @@ public class BotHPBarScript : MonoBehaviour
             Bfsm.state = BotFSM.State.Die;
             HP = -1;
         }
-    }*/
+    }
 }
