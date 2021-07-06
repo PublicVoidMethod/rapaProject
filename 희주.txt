@@ -10,26 +10,6 @@ https://youtu.be/C-Lz4EL63-E
 https://youtu.be/7x6mR0PpNSw 0:30
 
 ----------------------------------------------------------------------------------
-
-애니메이션 총 4가지
--Respawn
--Move : 정해진 루트대로 돌아감
--Attack :  bullet 발사, 공격반경 안에 들어오면 플레이어의 방향으로 총알이 발사됨 / bullet은 손에서 발사
--Damaged : 좌클릭 받으면 damaged
--Die : 4초 이후 destroy
-
-훈련봇 캐릭터, 애니메이션
-- 훈련봇 Damaged 몸통, 머리 다른 데미지
-- 애니메이션
-v 캐릭터 mixamo로 가져와서 애니메이션 다운로드
-v 애니메이션 적용
-v 공격에 Event 적용 (아도겐 타이밍)
-
-UI : 머리위에 떠다니는 HP바
-
-
-
-
 ※프로토타입※
 
 @훈련봇 FSM (Respawn, Move, Die, Damaged, 공격)
@@ -82,12 +62,31 @@ BotManager로 시도했으나 오류가 많이 나서 일단은 보류하고 Bot
 
 --------------------------------------
 ※알파※
-우클릭공격(bullet)받을 시 mesh가 head, body 따로 놈 / mesh가 밀려도 캐릭터는 그 자리에 있음. 
-훈련봇 prefab화 및 BotPosition의 문제 (이동된 값으로 저장됨, 마지막 죽은 곳에서 다시 태어남)
-맵
-공격 관련 이펙트
 
-//오디오 (총소리, Damage소리, BGM)
+@mesh
+- 우클릭공격(bullet)받을 시 mesh가 head, body 따로 놈 / mesh가 밀려도 캐릭터는 그 자리에 있음.
+
+ 
+@훈련봇 prefab화
+- BotPosition의 문제 (이동된 값으로 저장됨, 마지막 죽은 곳에서 다시 태어남)
+
+
+@훈련봇의 움직임
+- 
+
+
+@맵
+https://assetstore.unity.com/packages/3d/environments/sci-fi/sci-fi-construction-kit-modular-159280#content
+
+@공격 관련 이펙트
+https://assetstore.unity.com/packages/vfx/particles/war-fx-5669
+
+
+@오디오 (총소리, Damage소리, BGM)
+- Gun : https://assetstore.unity.com/packages/audio/sound-fx/weapons/futuristic-gun-soundfx-100851#content
+- Damaged : 
+- BGM : 
+
 ----------------------------------------
-베타
+※베타※
 
