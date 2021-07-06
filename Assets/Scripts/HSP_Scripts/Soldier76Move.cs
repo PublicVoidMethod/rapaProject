@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Soldier76Move : MonoBehaviour
 {
+    public static Soldier76Move instance;
+
     public float walkSpeed = 7.0f;
     public float runSpeed = 9.0f;
     public float gravity = -15.0f;
@@ -24,6 +26,14 @@ public class Soldier76Move : MonoBehaviour
     //bool isCrouch = false;
     //float standPosY = 0f;
     //float crouchPosY = 0f;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
 
     public float GetHP()
     {
