@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,17 +20,18 @@ public class MouseAttack : MonoBehaviour
     RaycastHit rHitInfo;
 
     float elapsedTime = 0;
+    float leftDelay = 0.3f;
+    bool isLeftShoot = true;
+    bool isReload = true;
+    float maxDistance;
 
     GameObject Bot;
     BotHPBarScript botHPScript;
     void Start()
     {
-
         //BotHPBar 찾기
         Bot = GameObject.Find("Bot");
         botHPScript = Bot.GetComponent<BotHPBarScript>();
-
-
 
         // 현재 총알에 총 탄창의 수로 초기화한다.
         currentBulletCnt = totalBulletCnt;
@@ -44,25 +48,30 @@ public class MouseAttack : MonoBehaviour
 
         // 메인카메라의 정면 방향으로 나아가고 싶다.
         dir = Camera.main.transform.forward;
+
+        maxDistance = 100f;
     }
 
     void Update()
     {
+        // 현재의 총알이 음수값으로 내려가지 않도록 해준다.
+        currentBulletCnt = Mathf.Clamp(currentBulletCnt, 0, totalBulletCnt);
+
         // 마우스 왼쪽 클릭을 했을 때
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             // 현재 총알의 카운트를 하나씩 감소시킨다.
             // 텍스트의 카운트를 써준다?
-            --currentBulletCnt;
-            // 현재 총알이 0이 되거나 R키를 눌렀을 때 토탈 탄창의 수로 초기화 한다.
-            if (currentBulletCnt <= 0)
+            // 현재 총알이 0이 되고 장전을 할 때 토탈 탄창의 수로 초기화 한다.
+            if (currentBulletCnt <= 0 && isReload)
             {
-                Reload();
+                // 레이 생성을 멈추고???????????????
+                // 재장전 함수를 1,5초 뒤에 실행한다.
+                Invoke("Reload", 1.5f);
+                isReload = false;
             }
             else
             {
-                magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
-
                 // 레이를 생성하고
                 Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
@@ -70,9 +79,15 @@ public class MouseAttack : MonoBehaviour
                 RaycastHit hitInfo;
 
                 // 레이를 발사한다.
-                if (Physics.Raycast(ray, out hitInfo))
+                if (Physics.Raycast(ray, out hitInfo) && isLeftShoot)
                 {
+                    --currentBulletCnt;
                     print(hitInfo.transform.name);
+                    magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
+
+
+                    // 좌클릭 딜레이 코루틴 실행
+                    StartCoroutine(LeftShootDelay());
 
                     if (hitInfo.transform.name.Contains("BotHead"))
                     {
@@ -87,9 +102,12 @@ public class MouseAttack : MonoBehaviour
         }
 
         // 현재 총알이 총 탄창의 값과 다르고 R키를 누르면
-        if (currentBulletCnt != totalBulletCnt && Input.GetKeyDown(KeyCode.R))
+        if (currentBulletCnt != totalBulletCnt && Input.GetKeyDown(KeyCode.R) && isReload)
         {
-            Reload();
+            // 레이 생성을 멈추고???????????????
+            // 재장전 함수를 1,5초 뒤에 실행한다.
+            Invoke("Reload", 1.5f);
+            isReload = false;
         }
 
         elapsedTime += Time.deltaTime;
@@ -100,13 +118,24 @@ public class MouseAttack : MonoBehaviour
             // 레이를 생성한다.
             Ray rRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             // 레이에 부딪힌 오브젝트가 있다면
-            if (Physics.Raycast(rRay, out rHitInfo))
+            if (Physics.Raycast(rRay, out rHitInfo, maxDistance))
             {
                 print(rHitInfo.transform.name);
 
                 // 그 오브젝트의 정보를 받은 포지션으로 방향을 만들고.
                 crossDir = rHitInfo.point - firePosition.transform.position;
                 crossDir.Normalize();
+
+                // 레이가 정보를 가져오지 못하면
+                if(rHitInfo.transform.name == null)
+                {
+                    // 방향을 레이의 끝지점에서 파이어포지션을 뺀 방향을 만들고
+                    Vector3 rayDir = new Vector3(0, 0, maxDistance) - firePosition.transform.position;
+                    rayDir.Normalize();
+
+                    // 그 방향으로 이동한다.
+                    transform.position += rayDir * locketSpeed * Time.deltaTime;
+                }
             }
             else
             {
@@ -135,7 +164,16 @@ public class MouseAttack : MonoBehaviour
 
     void Reload()
     {
+
         currentBulletCnt = totalBulletCnt;
         magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
+        isReload = true;
+    }
+
+    IEnumerator LeftShootDelay()
+    {
+        isLeftShoot = false;
+        yield return new WaitForSeconds(leftDelay);
+        isLeftShoot = true;
     }
 }
