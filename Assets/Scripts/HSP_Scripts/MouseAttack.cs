@@ -68,7 +68,7 @@ public class MouseAttack : MonoBehaviour
                 if(currentBulletCnt <= 0)
                 {
                     // 레이 생성을 멈추고???????????????
-                    // 재장전 함수를 1,5초 뒤에 실행한다.
+                    // 재장전 함수를 1.5초 뒤에 실행한다.
                     Invoke("Reload", 1.5f);
                     isReload = false;
                 }
@@ -86,7 +86,7 @@ public class MouseAttack : MonoBehaviour
 
                     bool isHit= Physics.Raycast(ray, out hitInfo, 100f);
 
-                    Debug.Log($"hitInfo : {hitInfo.point}");
+                    //Debug.Log($"hitInfo : {hitInfo.point}");
 
                     --currentBulletCnt;
 
@@ -179,14 +179,14 @@ public class MouseAttack : MonoBehaviour
             else
             {
                 // 방향을 레이의 끝지점에서 파이어포지션을 뺀 방향을 만들고
-                Vector3 rayDir = new Vector3(0, 0, maxDistance) - firePosition.transform.position;
-                rayDir.Normalize();
+                crossDir = new Vector3(0, 0, maxDistance) - firePosition.transform.position;
+                crossDir.Normalize();
+                print(crossDir);
+                //// 카메라의 정면 방향으로 이동하고 싶다.
+                //transform.position += dir * locketSpeed * Time.deltaTime;
 
-                // 그 방향으로 이동한다.
-                transform.position += rayDir * locketSpeed * Time.deltaTime;
-
-                // 카메라의 정면 방향으로 이동하고 싶다.
-                transform.position += dir * locketSpeed * Time.deltaTime;
+                //// 그 방향으로 이동한다.
+                //transform.position += crossDir * locketSpeed * Time.deltaTime;
             }
 
             // 총알 프리팹을 생성한다.
@@ -210,7 +210,6 @@ public class MouseAttack : MonoBehaviour
 
     void Reload()
     {
-
         currentBulletCnt = totalBulletCnt;
         magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
         isReload = true;
