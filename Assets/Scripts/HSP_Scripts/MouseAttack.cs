@@ -63,42 +63,89 @@ public class MouseAttack : MonoBehaviour
             // 현재 총알의 카운트를 하나씩 감소시킨다.
             // 텍스트의 카운트를 써준다?
             // 현재 총알이 0이 되고 장전을 할 때 토탈 탄창의 수로 초기화 한다.
-            if (currentBulletCnt <= 0 && isReload)
+            if (isReload)
             {
-                // 레이 생성을 멈추고???????????????
-                // 재장전 함수를 1,5초 뒤에 실행한다.
-                Invoke("Reload", 1.5f);
-                isReload = false;
-            }
-            else
-            {
-                // 레이를 생성하고
-                Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-
-                // 레이가 생성되었을 때 닿은 오브젝트의 정보를 담을 변수를 생성
-                RaycastHit hitInfo;
-
-                // 레이를 발사한다.
-                if (Physics.Raycast(ray, out hitInfo) && isLeftShoot)
+                if(currentBulletCnt <= 0)
                 {
-                    --currentBulletCnt;
-                    print(hitInfo.transform.name);
-                    magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
-
+                    // 레이 생성을 멈추고???????????????
+                    // 재장전 함수를 1,5초 뒤에 실행한다.
+                    Invoke("Reload", 1.5f);
+                    isReload = false;
+                }
+                else if(isLeftShoot)
+                {
+                    // 레이를 생성하고
+                    Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
                     // 좌클릭 딜레이 코루틴 실행
                     StartCoroutine(LeftShootDelay());
+                    isLeftShoot = false;
+                    
+                    // 레이가 생성되었을 때 닿은 오브젝트의 정보를 담을 변수를 생성
+                    RaycastHit hitInfo;
 
-                    if (hitInfo.transform.name.Contains("BotHead"))
+                    bool isHit= Physics.Raycast(ray, out hitInfo, 100f);
+
+                    Debug.Log($"hitInfo : {hitInfo.point}");
+
+                    --currentBulletCnt;
+
+                    magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
+                    // 레이를 발사한다.
+                    if (isHit && isLeftShoot)
                     {
-                        botHPScript.BotGetDamaged(2);
-                    }
-                    else if (hitInfo.transform.name.Contains("BotBody"))
-                    {
-                        botHPScript.BotGetDamaged(1);
+                        print(hitInfo.transform.name);
+                        if (hitInfo.transform.name.Contains("BotHead"))
+                        {
+                            botHPScript.BotGetDamaged(2);
+                        }
+                        else if (hitInfo.transform.name.Contains("BotBody"))
+                        {
+                            botHPScript.BotGetDamaged(1);
+                        }
                     }
                 }
             }
+            #region 장황한 재장전
+            /*
+                        if (currentBulletCnt <= 0 && isReload)
+                        {
+                            // 레이 생성을 멈추고???????????????
+                            // 재장전 함수를 1,5초 뒤에 실행한다.
+                            Invoke("Reload", 1.5f);
+                            isReload = false;
+                        }
+                        else if(isReload)
+                        {
+                            // 레이를 생성하고
+                            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+
+                            // 레이가 생성되었을 때 닿은 오브젝트의 정보를 담을 변수를 생성
+                            RaycastHit hitInfo;
+
+                            // 레이를 발사한다.
+                            if (Physics.Raycast(ray, out hitInfo) && isLeftShoot)
+                            {
+                                --currentBulletCnt;
+                                print(hitInfo.transform.name);
+                                magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
+
+
+                                // 좌클릭 딜레이 코루틴 실행
+                                StartCoroutine(LeftShootDelay());
+
+                                if (hitInfo.transform.name.Contains("BotHead"))
+                                {
+                                    botHPScript.BotGetDamaged(2);
+                                }
+                                else if (hitInfo.transform.name.Contains("BotBody"))
+                                {
+                                    botHPScript.BotGetDamaged(1);
+                                }
+                            }
+                        }
+            */
+            #endregion
         }
 
         // 현재 총알이 총 탄창의 값과 다르고 R키를 누르면
@@ -125,20 +172,19 @@ public class MouseAttack : MonoBehaviour
                 // 그 오브젝트의 정보를 받은 포지션으로 방향을 만들고.
                 crossDir = rHitInfo.point - firePosition.transform.position;
                 crossDir.Normalize();
-
-                // 레이가 정보를 가져오지 못하면
-                if(rHitInfo.transform.name == null)
-                {
-                    // 방향을 레이의 끝지점에서 파이어포지션을 뺀 방향을 만들고
-                    Vector3 rayDir = new Vector3(0, 0, maxDistance) - firePosition.transform.position;
-                    rayDir.Normalize();
-
-                    // 그 방향으로 이동한다.
-                    transform.position += rayDir * locketSpeed * Time.deltaTime;
-                }
             }
+
+            // 레이가 정보를 가져오지 못하면
+            //else if(rHitInfo.distance == maxDistance)
             else
             {
+                // 방향을 레이의 끝지점에서 파이어포지션을 뺀 방향을 만들고
+                Vector3 rayDir = new Vector3(0, 0, maxDistance) - firePosition.transform.position;
+                rayDir.Normalize();
+
+                // 그 방향으로 이동한다.
+                transform.position += rayDir * locketSpeed * Time.deltaTime;
+
                 // 카메라의 정면 방향으로 이동하고 싶다.
                 transform.position += dir * locketSpeed * Time.deltaTime;
             }
@@ -172,7 +218,6 @@ public class MouseAttack : MonoBehaviour
 
     IEnumerator LeftShootDelay()
     {
-        isLeftShoot = false;
         yield return new WaitForSeconds(leftDelay);
         isLeftShoot = true;
     }
