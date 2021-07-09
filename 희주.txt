@@ -72,11 +72,14 @@ BotManager로 시도했으나 오류가 많이 나서 일단은 보류하고 Bot
 
 
 @훈련봇의 움직임
-- 
+- AI
+- NavMesh 장애물 피해서 돌아다니게 하기
+- 충돌처리
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=503109&logNo=220854822925
 
 
 @맵
-https://assetstore.unity.com/packages/3d/environments/sci-fi/sci-fi-construction-kit-modular-159280#content
+v https://assetstore.unity.com/packages/3d/environments/sci-fi/sci-fi-construction-kit-modular-159280#content
 
 @공격 관련 이펙트
 https://assetstore.unity.com/packages/vfx/particles/war-fx-5669

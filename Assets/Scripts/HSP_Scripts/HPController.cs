@@ -23,6 +23,8 @@ public class HPController : MonoBehaviour
 
     public void PlayerGetDamaged(int damage)
     {
+
+
         hpSlider.value -= damage;
         //hpSlider.value = soldier76.GetHP() / soldier76.maxHP;
     }

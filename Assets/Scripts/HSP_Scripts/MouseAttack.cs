@@ -86,13 +86,13 @@ public class MouseAttack : MonoBehaviour
 
                     bool isHit= Physics.Raycast(ray, out hitInfo, 100f);
 
-                    //Debug.Log($"hitInfo : {hitInfo.point}");
+                    //Debug.Log(hitInfo.na);
 
                     --currentBulletCnt;
 
                     magazineCntText.text = currentBulletCnt.ToString() + " / " + totalBulletCnt.ToString();
                     // 레이를 발사한다.
-                    if (isHit && isLeftShoot)
+                    if (isHit)
                     {
                         print(hitInfo.transform.name);
                         if (hitInfo.transform.name.Contains("BotHead"))
