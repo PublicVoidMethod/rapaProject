@@ -1,5 +1,7 @@
-using System;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class BotFSM : MonoBehaviour
 {
@@ -10,7 +12,10 @@ public class BotFSM : MonoBehaviour
     GameObject target;
     public float attackDistance = 5;
 
-
+    //길찾기
+    NavMeshAgent agent;
+    public GameObject path;
+    public bool reverse;
 
     //Animator > Animator Controller > Animation Clips
     public Animator anim;
@@ -43,6 +48,7 @@ public class BotFSM : MonoBehaviour
 
         //transform.position = BP.transform.position;
 
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -92,18 +98,23 @@ public class BotFSM : MonoBehaviour
         }
     }
 
-    public GameObject BP;
+ //   public GameObject BP;
     public int BotSpeed = 1;
     public int Botdist = 20;
     private void UpdateMove()
     {
         //정해진 방향으로 이동하기
-        transform.position += transform.forward * Time.deltaTime * BotSpeed;
-        if ((Vector3.Distance(BP.transform.position, transform.position)) > Botdist)
-        {
-            BP.transform.position = transform.position;
-            transform.Rotate(0, -90, 0);
-        }
+        //    transform.position += transform.forward * Time.deltaTime * BotSpeed;
+        //   if ((Vector3.Distance(BP.transform.position, transform.position)) > Botdist)
+        //    {
+        //       BP.transform.position = transform.position;
+        //       transform.Rotate(0, -90, 0);
+        //   }
+
+
+        agent.SetDestination(path.transform.position);
+
+
 
         //나와 target의 거리를 구해서
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -128,12 +139,12 @@ public class BotFSM : MonoBehaviour
     }
 
     //데미지 애니메이션이 끝나면 Move상태로 전이   
-/*    internal void OnEventDamaged()
-    {
-        anim.SetTrigger("Move");
-        state = State.Move;
+    /*    internal void OnEventDamaged()
+        {
+            anim.SetTrigger("Move");
+            state = State.Move;
 
-    }*/
+        }*/
 
     internal void OnEventAttack()
     {
@@ -162,6 +173,17 @@ public class BotFSM : MonoBehaviour
         }
     }
 
+
+    //path trigger
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.name == path.name)
+        {
+            string nameTemp = path.name;
+            print(path.name);
+
+        }
+    }
 
 }
 
