@@ -14,7 +14,7 @@ public class BotFSM : MonoBehaviour
 
     //길찾기
     NavMeshAgent agent;
-    public GameObject currentPath;
+    GameObject currentPath;
     public bool reverse;
 
     //Animator > Animator Controller > Animation Clips
@@ -43,6 +43,9 @@ public class BotFSM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        currentPath = GameObject.Find("Path (1)");
+
         state = State.Respawn;
         target = GameObject.Find("Soldier76_Player");
 
@@ -103,18 +106,7 @@ public class BotFSM : MonoBehaviour
     public int Botdist = 20;
     private void UpdateMove()
     {
-        //정해진 방향으로 이동하기
-        //    transform.position += transform.forward * Time.deltaTime * BotSpeed;
-        //   if ((Vector3.Distance(BP.transform.position, transform.position)) > Botdist)
-        //    {
-        //       BP.transform.position = transform.position;
-        //       transform.Rotate(0, -90, 0);
-        //   }
-
-
         agent.SetDestination(currentPath.transform.position);
-
-
 
         //나와 target의 거리를 구해서
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -179,7 +171,7 @@ public class BotFSM : MonoBehaviour
     {
         if (collider.gameObject.name == currentPath.name)
         {
-            currentPath = currentPath.GetComponentInChildren<PathScript>().GetTarget(reverse);
+            currentPath = currentPath.GetComponent<PathScript>().GetTarget(reverse);
         }
     }
 
