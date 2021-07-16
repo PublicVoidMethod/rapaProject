@@ -16,8 +16,8 @@ public class BotHPBarScript : MonoBehaviour
     void Start()
     {
         HP = MaxHP;
-        Bfsm = GameObject.Find("Bot").GetComponent<BotFSM>();
-        //Bfsm = GameObject.Find("Bot(Clone)").GetComponent<BotFSM>();
+        //Bfsm = GameObject.Find("Bot").GetComponent<BotFSM>();
+        Bfsm = GameObject.Find("Bot(Clone)").GetComponent<BotFSM>();
         BotHPBar = GameObject.Find("BotHPBar");
     }
 

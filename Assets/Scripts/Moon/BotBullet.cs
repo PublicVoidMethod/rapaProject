@@ -16,7 +16,7 @@ public class BotBullet : MonoBehaviour
         // Soldier76Move의 플레이어의 스피드를 불러온다.
         speed = Soldier76Move.instance.walkSpeed * sss;
 
-        dir = GameObject.Find("Bot").GetComponent<BotFSM>().dir;
+        dir = GameObject.Find("Bot(Clone)").GetComponent<BotFSM>().dir;
         // dir = GameObject.Find("Bot(Clone)").GetComponent<BotFSM>().dir;
 
        canvas = GameObject.Find("Canvas_P");
@@ -39,8 +39,9 @@ public class BotBullet : MonoBehaviour
         {
             //데미지 함수 호출
             hpController.PlayerGetDamaged(10);
-            Destroy(gameObject);
+
         }
+        Destroy(gameObject);
     }
 }
 

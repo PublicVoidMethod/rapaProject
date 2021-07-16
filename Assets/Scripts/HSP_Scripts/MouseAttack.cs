@@ -30,8 +30,8 @@ public class MouseAttack : MonoBehaviour
     void Start()
     {
         //BotHPBar 찾기
-        Bot = GameObject.Find("Bot");
-        //botHPScript = Bot.GetComponent<BotHPBarScript>();
+        Bot = GameObject.Find("Bot(Clone)");
+        botHPScript = Bot.GetComponent<BotHPBarScript>();
 
         // 현재 총알에 총 탄창의 수로 초기화한다.
         currentBulletCnt = totalBulletCnt;
@@ -83,10 +83,10 @@ public class MouseAttack : MonoBehaviour
                     
                     // 레이가 생성되었을 때 닿은 오브젝트의 정보를 담을 변수를 생성
                     RaycastHit hitInfo;
-
+             
                     bool isHit= Physics.Raycast(ray, out hitInfo, 100f);
 
-                    //Debug.Log(hitInfo.na);
+                    //Debug.Log(hitInfo.name);
 
                     --currentBulletCnt;
 
@@ -170,6 +170,13 @@ public class MouseAttack : MonoBehaviour
             if (Physics.Raycast(rRay, out rHitInfo, maxDistance))
             {
                 print(rHitInfo.transform.name);
+
+                if (rHitInfo.transform.name.Contains("Bot"))
+
+                {
+                    botHPScript.BotGetDamaged(5);
+                }
+
                 //rRay.GetPoint(50)
                 // 그 오브젝트의 정보를 받은 포지션으로 방향을 만들고.
                 //crossDir = rHitInfo.point - firePosition.transform.position;

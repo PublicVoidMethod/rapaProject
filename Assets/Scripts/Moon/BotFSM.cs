@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.AI;
 
 public class BotFSM : MonoBehaviour
@@ -84,13 +82,19 @@ public class BotFSM : MonoBehaviour
 
     private void UpdateDie()
     {
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
         state = State.Dead;
+        
+        //onenable, setactive  
         Destroy(gameObject, 4f);
 
     }
     float updateTime;
     private void UpdateRespawn()
     {
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
         updateTime += Time.deltaTime;
         //태어나면 리스폰 애니메이션 재생
         if (updateTime > 2)
@@ -101,13 +105,14 @@ public class BotFSM : MonoBehaviour
         }
     }
 
- //   public GameObject BP;
-    public int BotSpeed = 1;
+    //   public GameObject BP;
+    public float BotSpeed = 1;
     public int Botdist = 20;
     private void UpdateMove()
     {
-        agent.SetDestination(currentPath.transform.position);
 
+        agent.SetDestination(currentPath.transform.position);
+        agent.isStopped = false;
         //나와 target의 거리를 구해서
         float distance = Vector3.Distance(transform.position, target.transform.position);
 
@@ -128,6 +133,8 @@ public class BotFSM : MonoBehaviour
         anim.SetTrigger("Damage");
         anim.SetTrigger("Move");
         state = State.Move;
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
     }
 
     //데미지 애니메이션이 끝나면 Move상태로 전이   
@@ -140,6 +147,9 @@ public class BotFSM : MonoBehaviour
 
     internal void OnEventAttack()
     {
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+ 
         //총알 복제
         GameObject BotBullet = Instantiate(BotbulletFactory);
         //Bullet을 총구에
@@ -148,7 +158,8 @@ public class BotFSM : MonoBehaviour
         dir = target.transform.position - transform.position;
         dir.Normalize();
 
-        //나와  target의 거리를 구해서
+
+        //나와 target의 거리를 구해서
         float distance = Vector3.Distance(transform.position, target.transform.position);
 
         //만약 그 거리가 공격거리보다 크면
@@ -167,7 +178,7 @@ public class BotFSM : MonoBehaviour
 
 
     //path trigger
-     void OnTriggerEnter(Collider collider)
+    void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.name == currentPath.name)
         {
