@@ -14,7 +14,7 @@ public class BotFSM : MonoBehaviour
 
     //±æÃ£±â
     NavMeshAgent agent;
-    public GameObject path;
+    public GameObject currentPath;
     public bool reverse;
 
     //Animator > Animator Controller > Animation Clips
@@ -83,7 +83,7 @@ public class BotFSM : MonoBehaviour
     {
         state = State.Dead;
         Destroy(gameObject, 4f);
-        BotManager.instance.COUNT--;
+
     }
     float updateTime;
     private void UpdateRespawn()
@@ -112,7 +112,7 @@ public class BotFSM : MonoBehaviour
         //   }
 
 
-        agent.SetDestination(path.transform.position);
+        agent.SetDestination(currentPath.transform.position);
 
 
 
@@ -175,13 +175,11 @@ public class BotFSM : MonoBehaviour
 
 
     //path trigger
-    private void OnTriggerEnter(Collider collider)
+     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.name == path.name)
+        if (collider.gameObject.name == currentPath.name)
         {
-            string nameTemp = path.name;
-            print(path.name);
-
+            currentPath = currentPath.GetComponentInChildren<PathScript>().GetTarget(reverse);
         }
     }
 

@@ -153,4 +153,14 @@ public class Soldier76Move : MonoBehaviour
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetTransform.position, crouchSpeed * Time.deltaTime);
         //Debug.Log(Camera.main.transform.position);
     }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag == "Recovery Field")
+        {
+            print(hit.gameObject.name);
+
+            // 0.2√ ¿« 
+        }
+    }
 }

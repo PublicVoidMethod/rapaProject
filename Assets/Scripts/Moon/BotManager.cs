@@ -3,47 +3,25 @@ using UnityEngine;
 
 public class BotManager : MonoBehaviour
 {
-    public static BotManager instance;
-    private void Awake()
-    {
-        instance = this;
-    }
 
     public GameObject BotFactory;
+    public BotFSM botfsm;
+    GameObject Bot;
 
-    int count;
-    public int COUNT
+
+    private void Start()
     {
-        get { return count; }
-        set
-        {
-            count = value;
-            if (count < 0)
-            {
-                count = 0;
-            }
-            if (count > maxCount)
-            {
-                count = maxCount;
-            }
-        }
+        //공장에서 봇 생성
+        Bot = Instantiate(BotFactory, transform.position, transform.rotation);
     }
-
-    public int maxCount = 2;
-
 
     // Update is called once per frame
     void Update()
     {
-        if (count < maxCount)
+        if (botfsm.state == BotFSM.State.Die)
         {
             //공장에서 봇 생성
-            GameObject Bot = Instantiate(BotFactory);
-            //내 위치에 가져다놓고싶다
-            Bot.transform.position = this.transform.position;
-            //내 방향과 일치
-            Bot.transform.rotation = transform.rotation;
-            count++;
+            Bot = Instantiate(BotFactory, transform.position, transform.rotation);
         }
     }
 }

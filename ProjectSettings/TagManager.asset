@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bot
   - path
+  - Recovery Field
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - Soldier76 UI
   - Recovery Field
   - BotBullet
-  - 
-  - 
+  - BotPosition
+  - path
   - 
   - 
   - 

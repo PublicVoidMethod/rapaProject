@@ -8,14 +8,23 @@ public class SpiralRocket : MonoBehaviour
 
     private void Start()
     {
-        botHP = GameObject.Find("Bot").GetComponent<BotHPBarScript>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name.Contains("Bot"))
+        if (collision.gameObject.tag == "Bot")
         {
-            botHP.BotGetDamaged(5);
+            // 원형의 레이를 생성하고
+            Collider[] cols = Physics.OverlapSphere(transform.position, 5.0f);
+            for(int i = 0; i < cols.Length; i++)
+            {
+                if(cols[i].gameObject.tag == "Bot")
+                {
+                    botHP = cols[i].gameObject.GetComponent<BotHPBarScript>();
+                    // 원형 레이의 범위 내에 Bot이 있다면 데미지를 준다.
+                    botHP.BotGetDamaged(5);
+                }
+            }
         }
         Destroy(gameObject);
     }

@@ -64,19 +64,19 @@ BotManager로 시도했으나 오류가 많이 나서 일단은 보류하고 Bot
 ※알파※
 
 @mesh
-- 우클릭공격(bullet)받을 시 mesh가 head, body 따로 놈 / mesh가 밀려도 캐릭터는 그 자리에 있음.
+v 우클릭공격(bullet)받을 시 mesh가 head, body 따로 놈 / mesh가 밀려도 캐릭터는 그 자리에 있음. (constraints 해결)
 
  
 @훈련봇 prefab화
-- BotPosition의 문제 (이동된 값으로 저장됨, 마지막 죽은 곳에서 다시 태어남)
+v BotPosition의 문제 (이동된 값으로 저장됨, 마지막 죽은 곳에서 다시 태어남) botposition 대신 nav로 바꿈
 
 
 @훈련봇의 움직임
-- AI
-- NavMesh 장애물 피해서 돌아다니게 하기
-- 충돌처리
+v AI
+v NavMesh 장애물 피해서 돌아다니게 하기
+v 충돌처리
+x path에 따라 이동해야하는데 다음 path로 넘어가지 않음 대체 왜??????
 https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=503109&logNo=220854822925
-
 
 @맵
 v https://assetstore.unity.com/packages/3d/environments/sci-fi/sci-fi-construction-kit-modular-159280#content

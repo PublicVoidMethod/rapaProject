@@ -222,7 +222,7 @@ RectTransform:
   - {fileID: 200689879}
   - {fileID: 1551188542}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 65432233}
   m_Layer: 6
   m_Name: Soldier76_Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -286,7 +286,7 @@ Transform:
   - {fileID: 523711245}
   - {fileID: 3057288}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &65432233
 CharacterController:
@@ -483,7 +483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 229060620}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.659}
+  m_LocalPosition: {x: 0, y: 0, z: 0.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1652998415}
@@ -553,7 +553,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &305477998
 GameObject:
@@ -832,7 +832,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &389813373
 GameObject:
@@ -1104,6 +1104,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8705179006161949589, guid: f177a34d75375a24094741e6f694e717, type: 3}
+      propertyPath: m_Constraints
+      value: 124
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705179006317923908, guid: f177a34d75375a24094741e6f694e717, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 21.902
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705179006317923908, guid: f177a34d75375a24094741e6f694e717, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705179006317923912, guid: f177a34d75375a24094741e6f694e717, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8790205683641418245, guid: f177a34d75375a24094741e6f694e717, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1184,7 +1200,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.078
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9014629816697645282, guid: f177a34d75375a24094741e6f694e717, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f177a34d75375a24094741e6f694e717, type: 3}
 --- !u!1 &642313309
 GameObject:
@@ -1292,7 +1309,7 @@ Transform:
   - {fileID: 1455831355}
   - {fileID: 1859232005}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &820933106
 GameObject:
@@ -1354,7 +1371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BotFactory: {fileID: 8790205684596379353, guid: f177a34d75375a24094741e6f694e717, type: 3}
-  maxCount: 1
+  botfsm: {fileID: 0}
 --- !u!4 &837221824
 Transform:
   m_ObjectHideFlags: 0
@@ -1367,7 +1384,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &898088954
 GameObject:
@@ -1988,24 +2005,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203000854}
   m_CullTransparentMesh: 1
---- !u!1 &1204451926 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8790205684554528293, guid: f177a34d75375a24094741e6f694e717, type: 3}
-  m_PrefabInstance: {fileID: 639558095}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1204451931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204451926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84c27d18424a9b54b99d85d9bec89d0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUI: 1
 --- !u!1 &1317152910
 GameObject:
   m_ObjectHideFlags: 0
@@ -2236,11 +2235,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1395644704}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.235, z: 1.07}
-  m_LocalScale: {x: 1.01, y: 1.01, z: 1.01}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.28, y: 0.1, z: 0.461}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1807252129}
+  m_Father: {fileID: 1652998415}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1395644706
@@ -2256,6 +2255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoveryField: {fileID: 6850983207224049211, guid: 5bbd6408c359c7c4e9a148644e3448bc, type: 3}
+  dropSpeed: 1
+  go: {fileID: 0}
 --- !u!1 &1455831354
 GameObject:
   m_ObjectHideFlags: 0
@@ -2709,6 +2710,7 @@ Transform:
   m_LocalScale: {x: 0.2672855, y: 0.18087614, z: 1.2432}
   m_Children:
   - {fileID: 229060621}
+  - {fileID: 1395644705}
   m_Father: {fileID: 1807252129}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2824,7 +2826,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1652998415}
-  - {fileID: 1395644705}
   m_Father: {fileID: 65432232}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3118,6 +3119,10 @@ PrefabInstance:
     - target: {fileID: 1919497327979329587, guid: 03b16c03471e1874bb02aaace7138e85, type: 3}
       propertyPath: m_Name
       value: BotBullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919497327979329587, guid: 03b16c03471e1874bb02aaace7138e85, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7668722742998703985, guid: 03b16c03471e1874bb02aaace7138e85, type: 3}
       propertyPath: speed

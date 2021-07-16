@@ -23,7 +23,7 @@ public class MouseAttack : MonoBehaviour
     float leftDelay = 0.3f;
     bool isLeftShoot = true;
     bool isReload = true;
-    float maxDistance;
+    float maxDistance = 50.0f;
 
     GameObject Bot;
     BotHPBarScript botHPScript;
@@ -31,7 +31,7 @@ public class MouseAttack : MonoBehaviour
     {
         //BotHPBar 찾기
         Bot = GameObject.Find("Bot");
-        botHPScript = Bot.GetComponent<BotHPBarScript>();
+        //botHPScript = Bot.GetComponent<BotHPBarScript>();
 
         // 현재 총알에 총 탄창의 수로 초기화한다.
         currentBulletCnt = totalBulletCnt;
@@ -49,7 +49,7 @@ public class MouseAttack : MonoBehaviour
         // 메인카메라의 정면 방향으로 나아가고 싶다.
         dir = Camera.main.transform.forward;
 
-        maxDistance = 100f;
+        //maxDistance = 100f;
     }
 
     void Update()
@@ -162,49 +162,54 @@ public class MouseAttack : MonoBehaviour
         // 마우스 오른쪽 클릭을 하고, 경과시간이 쿨타임의 시간보다 커진다면
         if (Input.GetMouseButtonDown(1) && elapsedTime >= coolTime)
         {
+            //총알 프리팹을 생성한다.
+            //go = Instantiate(spiralRocket);
             // 레이를 생성한다.
             Ray rRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             // 레이에 부딪힌 오브젝트가 있다면
             if (Physics.Raycast(rRay, out rHitInfo, maxDistance))
             {
                 print(rHitInfo.transform.name);
-
+                //rRay.GetPoint(50)
                 // 그 오브젝트의 정보를 받은 포지션으로 방향을 만들고.
-                crossDir = rHitInfo.point - firePosition.transform.position;
-                crossDir.Normalize();
+                //crossDir = rHitInfo.point - firePosition.transform.position;
+                //crossDir.Normalize();
+                StartCoroutine(AirShootRocketCoroutine(rHitInfo.point));
             }
 
             // 레이가 정보를 가져오지 못하면
             //else if(rHitInfo.distance == maxDistance)
             else
             {
+                #region 쓸모없는 코드
                 // 방향을 레이의 끝지점에서 파이어포지션을 뺀 방향을 만들고
-                crossDir = new Vector3(0, 0, maxDistance) - firePosition.transform.position;
-                crossDir.Normalize();
-                print(crossDir);
+                //crossDir = new Vector3(0, 0, maxDistance) - firePosition.transform.position;
+                //crossDir.Normalize();
+                //print(crossDir);
                 //// 카메라의 정면 방향으로 이동하고 싶다.
                 //transform.position += dir * locketSpeed * Time.deltaTime;
 
                 //// 그 방향으로 이동한다.
                 //transform.position += crossDir * locketSpeed * Time.deltaTime;
+                #endregion
+                print(rRay.GetPoint(maxDistance));
+                StartCoroutine(AirShootRocketCoroutine(rRay.GetPoint(maxDistance)));
             }
-
-            // 총알 프리팹을 생성한다.
-            go = Instantiate(spiralRocket);
-
-            // 총알을 firePosition으로 회전시킨다.
-            go.transform.rotation = firePosition.transform.rotation;
-            // 총알의 생성 위치를 firePosition으로 위치시킨다.
-            go.transform.position = firePosition.transform.position;
 
             // 경과시간을 초기화한다.
             elapsedTime = 0;
-        }
 
-        // 그 방향으로 움직인다.
-        if (go != null)
-        {
-            go.transform.position += crossDir * locketSpeed * Time.deltaTime;
+            //    // 총알을 firePosition으로 회전시킨다.
+            //    go.transform.rotation = firePosition.transform.rotation;
+            //    // 총알의 생성 위치를 firePosition으로 위치시킨다.
+            //    go.transform.position = firePosition.transform.position;
+
+            //}
+
+            //// 그 방향으로 움직인다.
+            //if (go != null)
+            //{
+            //    go.transform.position += crossDir * locketSpeed * Time.deltaTime;
         }
     }
 
@@ -219,5 +224,35 @@ public class MouseAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(leftDelay);
         isLeftShoot = true;
+    }
+
+   
+    IEnumerator AirShootRocketCoroutine(Vector3 maxPos)
+    {
+        GameObject go = Instantiate(spiralRocket, firePosition.transform.position, Quaternion.identity);
+       
+        float curTime = 0;
+        // 이 코루틴에 온 목적이 뭘까? - 로켓의 위치를 조금씩 앞으로 움직여서 맥스 거리까지 가도록 만든다.
+        // 로켓의 최초 위치를 잡아줘야함
+        while(curTime < 1.0f)
+        {
+            //Vector3 myPos = Vector3.Lerp(firePosition.transform.position, maxPos, curTime);
+            if (Vector3.Distance(maxPos, go.transform.position) > 1)
+            {
+                Vector3 dir = (maxPos - firePosition.transform.position).normalized;
+                go.transform.position += dir * 20 * Time.deltaTime;
+            }
+            else
+            {
+                go.transform.position = maxPos;
+                // 맥스거리에 도달했을 때 총알을 파괴시킨다.
+                Destroy(go);
+                yield break;
+            }
+            // 시간을 누적을 시켜서 그 누적된 시간만큼 로켓을 더 앞에 생성한다.
+            //curTime += Time.deltaTime * 0.1f;
+            yield return null;
+        }
+        //DestroyImmediate(spiralRocket);
     }
 }
