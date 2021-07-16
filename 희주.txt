@@ -77,18 +77,21 @@ v NavMesh 장애물 피해서 돌아다니게 하기
 v 충돌처리
 x path에 따라 이동해야하는데 다음 path로 넘어가지 않음 대체 왜??????
 https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=503109&logNo=220854822925
+x BotManager Prefab화 후 여러곳에서 생성
+x 봇끼리 충돌처리
+x 
 
 @맵
 v https://assetstore.unity.com/packages/3d/environments/sci-fi/sci-fi-construction-kit-modular-159280#content
 
 @공격 관련 이펙트
-https://assetstore.unity.com/packages/vfx/particles/war-fx-5669
-
+x 레이저 or bullet FX
 
 @오디오 (총소리, Damage소리, BGM)
-- Gun : https://assetstore.unity.com/packages/audio/sound-fx/weapons/futuristic-gun-soundfx-100851#content
-- Damaged : 
-- BGM : 
+- 죽었을때 : 훈련용 봇 처치 여자 음성 
+
+@전체 UI
+훈련용 봇 처치 (+)
 
 ----------------------------------------
 ※베타※
