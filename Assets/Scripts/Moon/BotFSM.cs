@@ -23,6 +23,8 @@ public class BotFSM : MonoBehaviour
     public GameObject BotFirePosition;
     public Vector3 dir;
 
+    public BotManager botManager;
+    public int count;
 
 
     public enum State
@@ -41,7 +43,6 @@ public class BotFSM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         currentPath = GameObject.Find("Path (1)");
 
         state = State.Respawn;
@@ -67,6 +68,13 @@ public class BotFSM : MonoBehaviour
         {
             UpdateDamaged();
         }
+        else if (state == State.Attack)
+        {
+            //rotation
+            dir = target.transform.position - transform.position;
+            dir.Normalize();
+            transform.rotation = Quaternion.LookRotation(dir);
+        }
 
         else if (state == State.Die)
         {
@@ -76,23 +84,17 @@ public class BotFSM : MonoBehaviour
 
         else if (state == State.Dead)
         {
-
+            UpdateDead();
         }
     }
 
-    private void UpdateDie()
-    {
-        agent.isStopped = true;
-        agent.velocity = Vector3.zero;
-        state = State.Dead;
-        
-        //onenable, setactive  
-        Destroy(gameObject, 4f);
 
-    }
+
     float updateTime;
-    private void UpdateRespawn()
+    public void UpdateRespawn()
     {
+        /*        transform.position = botManager.GetRandomPosition();
+                gameObject.SetActive(true);*/
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         updateTime += Time.deltaTime;
@@ -102,6 +104,7 @@ public class BotFSM : MonoBehaviour
             //애니메이션이 끝나면 Move상태로 전이
             state = State.Move;
             anim.SetTrigger("Move");
+            updateTime = 0;
         }
     }
 
@@ -147,17 +150,13 @@ public class BotFSM : MonoBehaviour
 
     internal void OnEventAttack()
     {
+        //GameObject prevPath = currentPath;
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
- 
-        //총알 복제
-        GameObject BotBullet = Instantiate(BotbulletFactory);
-        //Bullet을 총구에
-        BotBullet.transform.position = BotFirePosition.transform.position;
-        //bullet 방향
-        dir = target.transform.position - transform.position;
-        dir.Normalize();
 
+
+        //총알 복제
+        GameObject BotBullet = Instantiate(BotbulletFactory, BotFirePosition.transform.position, BotFirePosition.transform.rotation);
 
         //나와 target의 거리를 구해서
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -165,6 +164,7 @@ public class BotFSM : MonoBehaviour
         //만약 그 거리가 공격거리보다 크면
         if (distance > attackDistance)
         {
+            //currentPath = prevPath;
             //Move상태로 전이
             state = State.Move;
             anim.SetTrigger("Move");
@@ -176,6 +176,32 @@ public class BotFSM : MonoBehaviour
         }
     }
 
+    public void UpdateDie()
+    {
+
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+
+        state = State.Dead;
+        updateTime = 0;
+        botManager.BotInstant();
+    }
+
+    private void UpdateDead()
+    {
+
+        if (updateTime > 3)
+        {
+            //onenable, setactive  
+            Destroy(gameObject);
+            /*            gameObject.SetActive(false);*/
+            updateTime = 0;
+        }
+        else
+        {
+            updateTime += Time.deltaTime;
+        }
+    }
 
     //path trigger
     void OnTriggerEnter(Collider collider)

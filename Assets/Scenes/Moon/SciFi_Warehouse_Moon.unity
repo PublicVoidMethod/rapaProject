@@ -38343,6 +38343,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5913335093136769529, guid: ed0881d44ae8fd5409b1f5a64b91d94e, type: 3}
+      propertyPath: Count
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5913335093136769529, guid: ed0881d44ae8fd5409b1f5a64b91d94e, type: 3}
       propertyPath: botfsm
       value: 
       objectReference: {fileID: 8705179006317923909, guid: f177a34d75375a24094741e6f694e717, type: 3}
