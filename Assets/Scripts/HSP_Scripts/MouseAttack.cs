@@ -6,9 +6,17 @@ using UnityEngine.UI;
 
 public class MouseAttack : MonoBehaviour
 {
+    public static MouseAttack instance = null;
+    private void Awake()
+    {
+        instance = this;
+    }
+
     public GameObject spiralRocket;
     public GameObject firePosition;
     public Text magazineCntText;
+    public ParticleSystem leftShootEffect;
+    public Animator anim;
     public float coolTime = 5.0f;
     public float locketSpeed = 10.0f;
     public int currentBulletCnt = 0;
@@ -26,13 +34,13 @@ public class MouseAttack : MonoBehaviour
     float maxDistance = 50.0f;
 
     GameObject Bot;
-    BotHPBarScript botHPScript;
+    public BotHPBarScript botHPScript;
     void Start()
     {
         //BotHPBar 찾기
-        Bot = GameObject.Find("Bot(Clone)");
-        botHPScript = Bot.GetComponent<BotHPBarScript>();
-
+        /*Bot = GameObject.Find("Bot(Clone)");
+        botHPScript = Bot.GetComponent<BotHPBarScript>();*/
+        BotManager.instance.CreateBot();
         // 현재 총알에 총 탄창의 수로 초기화한다.
         currentBulletCnt = totalBulletCnt;
 
@@ -83,8 +91,13 @@ public class MouseAttack : MonoBehaviour
                     
                     // 레이가 생성되었을 때 닿은 오브젝트의 정보를 담을 변수를 생성
                     RaycastHit hitInfo;
-             
-                    bool isHit= Physics.Raycast(ray, out hitInfo, 100f);
+                    anim.SetTrigger("Fire");
+                    AudioSource leftShootAudio = gameObject.GetComponent<AudioSource>();
+                    leftShootAudio.volume = 0.5f;
+                    leftShootAudio.Stop();
+                    leftShootAudio.Play();
+
+                    bool isHit= Physics.Raycast(ray, out hitInfo);
 
                     //Debug.Log(hitInfo.name);
 
@@ -94,6 +107,13 @@ public class MouseAttack : MonoBehaviour
                     // 레이를 발사한다.
                     if (isHit)
                     {
+                        // 좌클릭의 레이가 오브젝트에 닿으면 좌클릭 이펙트를 레이가 닿은 포지션에 위치시킨다.
+                        ParticleSystem ps = Instantiate(leftShootEffect);
+                        ps.transform.position = hitInfo.point;
+                        ps.Stop();
+                        ps.Play();
+                        ps.transform.forward = hitInfo.normal;
+
                         print(hitInfo.transform.name);
                         if (hitInfo.transform.name.Contains("BotHead"))
                         {
@@ -238,28 +258,41 @@ public class MouseAttack : MonoBehaviour
     {
         GameObject go = Instantiate(spiralRocket, firePosition.transform.position, Quaternion.identity);
        
-        float curTime = 0;
         // 이 코루틴에 온 목적이 뭘까? - 로켓의 위치를 조금씩 앞으로 움직여서 맥스 거리까지 가도록 만든다.
         // 로켓의 최초 위치를 잡아줘야함
-        while(curTime < 1.0f)
+        while(go != null)
         {
-            //Vector3 myPos = Vector3.Lerp(firePosition.transform.position, maxPos, curTime);
-            if (Vector3.Distance(maxPos, go.transform.position) > 1)
+            if(go != null)
             {
-                Vector3 dir = (maxPos - firePosition.transform.position).normalized;
-                go.transform.position += dir * 20 * Time.deltaTime;
+                //Debug.Log($"maxPos : {maxPos}");
+                //Debug.Log($"go : {go.transform.position}");
+                //Debug.Log($"Distance : { Vector3.Distance(maxPos, go.transform.position)}");
+                //Vector3 myPos = Vector3.Lerp(firePosition.transform.position, maxPos, curTime);
+                if ( Vector3.Distance(maxPos, go.transform.position) > 1) 
+                {
+                    Vector3 dir = (maxPos - firePosition.transform.position).normalized;
+                    go.transform.position += dir * 20 * Time.deltaTime;
+                }
+                else
+                {
+                    go.transform.position = maxPos;
+                    // 맥스거리에 도달했을 때 총알을 파괴시킨다.
+                    Invoke("DestroyRocket", 0.3f);
+                    //Destroy(go);
+                    //yield break;
+                }
+                // 시간을 누적을 시켜서 그 누적된 시간만큼 로켓을 더 앞에 생성한다.
+                //curTime += Time.deltaTime * 0.1f;
+                yield return null;
             }
-            else
-            {
-                go.transform.position = maxPos;
-                // 맥스거리에 도달했을 때 총알을 파괴시킨다.
-                Destroy(go);
-                yield break;
-            }
-            // 시간을 누적을 시켜서 그 누적된 시간만큼 로켓을 더 앞에 생성한다.
-            //curTime += Time.deltaTime * 0.1f;
-            yield return null;
         }
-        //DestroyImmediate(spiralRocket);
+    }
+
+    /// <summary>
+    /// 우클릭 나선로켓을 파괴하는 함수
+    /// </summary>
+    void DestroyRocket()
+    {
+        Destroy(go);
     }
 }

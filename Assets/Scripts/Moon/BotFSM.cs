@@ -53,9 +53,11 @@ public class BotFSM : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
+    bool isDead = false;
     // Update is called once per frame
     void Update()
     {
+        /*
         if (state == State.Respawn)
         {
             UpdateRespawn();
@@ -84,8 +86,51 @@ public class BotFSM : MonoBehaviour
 
         else if (state == State.Dead)
         {
+            Debug.Log("> State.Dead");
             UpdateDead();
         }
+        */
+        if (!isDead)
+        {
+            if (state == State.Respawn)
+            {
+                Debug.Log(">> Respawn");
+                UpdateRespawn();
+            }
+            if (state == State.Move)
+            {
+                Debug.Log(">> Move");
+                UpdateMove();
+            }
+            if (state == State.Damaged)
+            {
+                Debug.Log(">> Damaged");
+                UpdateDamaged();
+            }
+            if (state == State.Attack)
+            {
+                Debug.Log(">> Attack");
+                //rotation
+                dir = target.transform.position - transform.position;
+                dir.Normalize();
+                transform.rotation = Quaternion.LookRotation(dir);
+            }
+            if (state == State.Die)
+            {
+                Debug.Log(">> Die");
+                anim.SetTrigger("Die");
+                UpdateDie();
+            }
+        }
+        if (state == State.Dead || isDead)
+        {
+            isDead = true;
+            Debug.Log("> State.Dead");
+            UpdateDead();
+        }
+
+
+
     }
 
 
@@ -184,7 +229,12 @@ public class BotFSM : MonoBehaviour
 
         state = State.Dead;
         updateTime = 0;
+    }
+
+    private void OnDestroy()
+    {
         botManager.BotInstant();
+        isDead = false;
     }
 
     private void UpdateDead()

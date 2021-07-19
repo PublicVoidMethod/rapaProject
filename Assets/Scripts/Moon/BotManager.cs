@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class BotManager : MonoBehaviour
 {
-
+    public static BotManager instance;
+    
     public GameObject BotFactory;
 
     public BotFSM botfsm;
@@ -10,8 +11,22 @@ public class BotManager : MonoBehaviour
     // public int Count = 0;
     float currentTime;
 
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
+        BotFactory.TryGetComponent(out botfsm);
+    }
+
+    public void CreateBot()
+    {
+        Debug.Log("여기는 봇 매니져");
         //공장에서 봇 생성
         Instantiate(BotFactory, GetRandomPosition(), transform.rotation);
         // Count++;
