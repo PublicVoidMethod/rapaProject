@@ -26,6 +26,8 @@ public class BotFSM : MonoBehaviour
     public BotManager botManager;
     public int count;
 
+    //오디오
+    AudioSource audioSource;
 
     public enum State
     {
@@ -43,6 +45,9 @@ public class BotFSM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //오디오
+        audioSource = GetComponent<AudioSource>();
+
         currentPath = GameObject.Find("Path (1)");
 
         state = State.Respawn;
@@ -223,7 +228,7 @@ public class BotFSM : MonoBehaviour
 
     public void UpdateDie()
     {
-
+        audioSource.Play();
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
 

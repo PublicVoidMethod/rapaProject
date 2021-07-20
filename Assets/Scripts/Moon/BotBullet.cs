@@ -11,9 +11,13 @@ public class BotBullet : MonoBehaviour
     GameObject canvas;
     HPController hpController;
 
+    AudioSource audioSource;
+
     // Sdwtart is called before the first frame update
     void Start()
     {
+
+        audioSource = GetComponent<AudioSource>();
         bot = GameObject.Find("BulletPosition");
         // Soldier76Move의 플레이어의 스피드를 불러온다.
         speed = Soldier76Move.instance.walkSpeed * sss;
@@ -37,11 +41,11 @@ public class BotBullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         print(collision.transform.name);
-        if (collision.gameObject.name.Contains("Player"))
+        if (collision.gameObject.name.Contains("Player") || collision.gameObject.name.Contains("Gun"))
         {
             //데미지 함수 호출
             hpController.PlayerGetDamaged(10);
-
+            audioSource.Play();
         }
        Destroy(gameObject);
     }

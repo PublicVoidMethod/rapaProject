@@ -11,10 +11,17 @@ public class HPController : MonoBehaviour
     private void Update()
     {
         hpSlider.value = Soldier76Move.instance.hP / soldier76.maxHP;
+
+
+        if (Soldier76Move.instance.hP <= 0)
+        {
+            Application.Quit();
+        }
     }
 
     public void PlayerGetDamaged(int damage)
     {
+
         Debug.Log("> PlayerGetDamaged");
         Debug.Log($"damage : {damage}");
 
