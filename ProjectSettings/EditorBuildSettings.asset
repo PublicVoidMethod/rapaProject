@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/HSP_Scenes/trainingGround_H.unity
     guid: ce718c81e24396347b608bbe3e81d180
   - enabled: 1
-    path: Assets/Scenes/Moon/SciFi_Warehouse_Moon.unity
+    path: Assets/Scenes/Moon/SciFi_Warehouse_HSP.unity
     guid: 04ba57353b4f0284686265d3d150c23c
   m_configObjects: {}

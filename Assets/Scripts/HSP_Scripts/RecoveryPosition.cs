@@ -16,10 +16,11 @@ public class RecoveryPosition : MonoBehaviour
     bool isRecoveryDelay = true;
     float recoveryCoolTime = 6f;
     bool isRecoveryEffect = true; // 생체장 이펙트가 생성되는 변수(true : 이펙트 생성, false : 이펙트 생성x)
-
-    void Start()
+    AudioSource healAudio;
+   void Start()
     {
         isRecoveryDelay = false;
+        healAudio = GetComponent<AudioSource>();
         // e키를 누르면 리커버리 박스가 생성된다.
         // 리커버리 박스가 생성되면 10초의 쿨타임을 가지게 된다.
     }
@@ -35,6 +36,7 @@ public class RecoveryPosition : MonoBehaviour
                 isRecoveryDelay = true;
                 RecoveryInstantiate();
                 StartCoroutine(RecoveryDelayCoroutine());
+                healAudio.Play();
             }
             // 생성한 회복 스킬 박스를 나의 위치에 위치시킨다.
             //go.transform.position = transform.position;

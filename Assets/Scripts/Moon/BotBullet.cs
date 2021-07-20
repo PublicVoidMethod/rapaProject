@@ -18,9 +18,9 @@ public class BotBullet : MonoBehaviour
         // Soldier76Move의 플레이어의 스피드를 불러온다.
         speed = Soldier76Move.instance.walkSpeed * sss;
 
-       canvas = GameObject.Find("Canvas_P");
-       hpController = canvas.GetComponentInChildren<HPController>();
-  dir = bot.transform.position - Soldier76Move.instance.transform.position;
+        canvas = GameObject.Find("Canvas_P");
+        hpController = canvas.GetComponentInChildren<HPController>();
+        dir = transform.position - Soldier76Move.instance.transform.position;
 
       
     }

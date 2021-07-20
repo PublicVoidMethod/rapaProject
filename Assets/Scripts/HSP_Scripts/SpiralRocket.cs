@@ -8,14 +8,12 @@ public class SpiralRocket : MonoBehaviour
     //public GameObject rightShootEffect;
     public GameObject rightShootEffect;
 
-    private void Start()
-    {
+    public GameObject bullet;
 
-    }
-
+    //나선 로켓이 파괴 되기전
     private void OnDestroy()
     {
-        // 우클릭 파괴 효과를 생성한다.
+       /* // 우클릭 파괴 효과를 생성한다.
         GameObject rightShootObj = Instantiate(rightShootEffect);
         // 생성한 효과를 충돌된 위치에 가져놓는다.
         rightShootObj.transform.position = transform.position;
@@ -24,6 +22,7 @@ public class SpiralRocket : MonoBehaviour
         ParticleSystem ps = rightShootObj.GetComponent<ParticleSystem>();
         ps.Stop();
         ps.Play();
+       */
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,7 +42,31 @@ public class SpiralRocket : MonoBehaviour
                 }
             }
         }
+        // 우클릭 파괴 소리를 넣는다.
+        AudioSource spiralDestroyAudio = GetComponent<AudioSource>();
 
+        //파괴되기 바로 직전에 재생
+        //spiralDestroyAudio.Stop();
+        spiralDestroyAudio.Play();
+
+        GetComponent<SphereCollider>().enabled = false;
+        bullet.SetActive(false);
+
+        // 우클릭 파괴 효과를 생성한다.
+        GameObject rightShootObj = Instantiate(rightShootEffect);
+        // 생성한 효과를 충돌된 위치에 가져놓는다.
+        rightShootObj.transform.position = transform.position;
+        //Debug.Log($"rightShootObj : {rightShootObj.transform.position}");
+        //Debug.Log($"collision : {collision.transform.position}");
+        ParticleSystem ps = rightShootObj.GetComponent<ParticleSystem>();
+        ps.Stop();
+        ps.Play();
+
+        Invoke(nameof(ThisDestory), spiralDestroyAudio.clip.length);
+    }
+
+    void ThisDestory()
+    {
         Destroy(gameObject);
     }
 }
